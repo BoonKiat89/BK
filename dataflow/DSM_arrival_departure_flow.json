@@ -1,0 +1,42 @@
+{
+	"name": "DSM_arrival_departure_flow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsmarrivaluatsql",
+						"type": "DatasetReference"
+					},
+					"name": "dsmarrivaluatsql"
+				},
+				{
+					"dataset": {
+						"referenceName": "dsmdepartureuatsql",
+						"type": "DatasetReference"
+					},
+					"name": "dsmdepartureuatsql"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dnaarrivaluatsqlnew",
+						"type": "DatasetReference"
+					},
+					"name": "dnaarrivaluatsql"
+				},
+				{
+					"dataset": {
+						"referenceName": "dnadepartureuatsqlnew",
+						"type": "DatasetReference"
+					},
+					"name": "dnadepartureuatsql"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID as string,\n\t\tSIBT as timestamp,\n\t\tEIBT as timestamp,\n\t\tAIBT as timestamp,\n\t\tALDT as timestamp,\n\t\tDelayInMinutes as integer,\n\t\tPairedFlightNumber as string,\n\t\tPairedSobt as timestamp,\n\t\tFlight_ID as string,\n\t\tSIBTDateTimeOffset as string,\n\t\tEIBTDateTimeOffset as string,\n\t\tAIBTDateTimeOffset as string,\n\t\tALDTDateTimeOffset as string,\n\t\tPairedSobtDateTimeOffset as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> dsmarrivaluatsql\nsource(output(\n\t\tID as string,\n\t\tSOBT as timestamp,\n\t\tEOBT as timestamp,\n\t\tAOBT as timestamp,\n\t\tATOT as timestamp,\n\t\tDelayInMinutes as integer,\n\t\tPairedFlightNumber as string,\n\t\tPairedSibt as timestamp,\n\t\tFlight_ID as string,\n\t\tSOBTDateTimeOffset as string,\n\t\tEOBTDateTimeOffset as string,\n\t\tAOBTDateTimeOffset as string,\n\t\tATOTDateTimeOffset as string,\n\t\tPairedSibtDateTimeOffset as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> dsmdepartureuatsql\ndsmarrivaluatsql sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID,\n\t\tSIBT,\n\t\tEIBT,\n\t\tAIBT,\n\t\tALDT,\n\t\tDelay_In_Minute = DelayInMinutes,\n\t\tPaired_Flight_Number = PairedFlightNumber,\n\t\tPaired_SOBT = PairedSobt,\n\t\tFlight_ID,\n\t\tSIBT_Datetime_Offset = SIBTDateTimeOffset,\n\t\tEIBT_Datetime_Offset = EIBTDateTimeOffset,\n\t\tAIBT_Datetime_Offset = AIBTDateTimeOffset,\n\t\tALDT_Datetime_Offset = ALDTDateTimeOffset,\n\t\tPaired_SOBT_Datetime_Offset = PairedSobtDateTimeOffset\n\t)) ~> dnaarrivaluatsql\ndsmdepartureuatsql sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID,\n\t\tSOBT,\n\t\tEOBT,\n\t\tAOBT,\n\t\tATOT,\n\t\tDelay_In_Minute = DelayInMinutes,\n\t\tPaired_Flight_Number = PairedFlightNumber,\n\t\tPaired_SIBT = PairedSibt,\n\t\tFlight_ID,\n\t\tSOBT_Datetime_Offset = SOBTDateTimeOffset,\n\t\tEOBT_Datetime_Offset = EOBTDateTimeOffset,\n\t\tAOBT_Datetime_Offset = AOBTDateTimeOffset,\n\t\tATOT_Datetime_Offset = ATOTDateTimeOffset,\n\t\tPaired_SIBT_Datetime_Offset = PairedSibtDateTimeOffset\n\t)) ~> dnadepartureuatsql"
+		}
+	}
+}

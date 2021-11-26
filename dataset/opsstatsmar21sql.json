@@ -1,0 +1,52 @@
+{
+	"name": "opsstatsmar21sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Serial_Number",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Metrics",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sub_Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FSC_LCC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Entity_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Report_Period",
+				"type": "date"
+			},
+			{
+				"name": "Ops_Stats",
+				"type": "real",
+				"precision": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "operation_tbl_t_OpsStats_Historical"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

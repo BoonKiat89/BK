@@ -1,0 +1,202 @@
+{
+	"name": "dsmincrementalload_copy2",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupOldWatermark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT Watermark_Value AS OldWatermarkValue FROM dna_tbl_m_DataFactoryWatermarking_common WHERE Table_Name = 'paxflight_tbl_t_Flight_test';",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DataFactoryWatermarking",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "LookupNewWaterMark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT max(LastUpdateDateTimeOffset) AS NewWatermarkValue from Flight;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "dsmFlight",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Copy data- Flight",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LookupNewWaterMark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LookupOldWatermark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select \nID as ID,\nFlightKey as Flight_Key,\nAirline as Airline,\nFlightNumber as Flight_Number,\nFlightDate as Flight_Date,\nFlightDirection as Flight_Direction,\nLastUpdated as Last_Updated,\nOrigin as Origin,\nDestination as Destination,\nAircraftType as Aircraft_Type,\nRegistrationNumber as Registration_Number,\nRouting as Routing,\nFlightStatus as Flight_Status,\nFlightDateTimeOFfset as Flight_Datetime_Offset,\nLastUpdateDateTimeOffset as Last_Update_Datetime_Offset,\nGate as Gate,\nFlightType as Flight_Type \nfrom Flight where LastUpdated > '@{activity('LookupOldWatermark').output.firstRow.OldWatermarkValue }' and LastUpdateDateTimeOffset <= '@{activity('LookupNewWatermark').output.firstRow.NewWatermarkValue }'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "dsmsqldatabaseuat",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dsmuatflightcsv",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy data- Flight",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[sp_update_watermark]",
+					"storedProcedureParameters": {
+						"Last_Updated": {
+							"value": {
+								"value": "@{activity('LookupNewWatermark').output.firstRow.NewWatermarkValue}",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"Table_Name": {
+							"value": "paxflight_tbl_t_Flight_test",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DNAUATDatabase",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Watermarkflow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Copy data- Flight",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Watermarkflow",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-11-09T15:37:31Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

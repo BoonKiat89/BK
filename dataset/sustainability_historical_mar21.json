@@ -1,0 +1,193 @@
+{
+	"name": "sustainability_historical_mar21",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Sustainability Historical Data FY17 to FY20 Mar_with calculation.csv",
+				"container": "sustainability"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Sustainabilitly_Analytic_Key",
+				"type": "String"
+			},
+			{
+				"name": "Serial_No",
+				"type": "String"
+			},
+			{
+				"name": "Financial_Year",
+				"type": "String"
+			},
+			{
+				"name": "Report_Submitted_By",
+				"type": "String"
+			},
+			{
+				"name": "Email",
+				"type": "String"
+			},
+			{
+				"name": "Report_Cleared_By",
+				"type": "String"
+			},
+			{
+				"name": "Report_Period",
+				"type": "String"
+			},
+			{
+				"name": "Submission_Date",
+				"type": "String"
+			},
+			{
+				"name": "Entity_Name",
+				"type": "String"
+			},
+			{
+				"name": "Facility_Description",
+				"type": "String"
+			},
+			{
+				"name": "Consumption_Type",
+				"type": "String"
+			},
+			{
+				"name": "Emission_Source",
+				"type": "String"
+			},
+			{
+				"name": "Emission_Point",
+				"type": "String"
+			},
+			{
+				"name": "Description",
+				"type": "String"
+			},
+			{
+				"name": "Data_Source",
+				"type": "String"
+			},
+			{
+				"name": "Measured_Units",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "Value",
+				"type": "String"
+			},
+			{
+				"name": "FY_Mod",
+				"type": "String"
+			},
+			{
+				"name": "Place_of_Business",
+				"type": "String"
+			},
+			{
+				"name": "Classification",
+				"type": "String"
+			},
+			{
+				"name": "Sats_Effective_Interest",
+				"type": "String"
+			},
+			{
+				"name": "Principle_Activities",
+				"type": "String"
+			},
+			{
+				"name": "Coy_Control",
+				"type": "String"
+			},
+			{
+				"name": "Equity_Share",
+				"type": "String"
+			},
+			{
+				"name": "Operational_Control",
+				"type": "String"
+			},
+			{
+				"name": "Emission_Scope",
+				"type": "String"
+			},
+			{
+				"name": "Required_Units",
+				"type": "String"
+			},
+			{
+				"name": "Conversion_Factor",
+				"type": "String"
+			},
+			{
+				"name": "Reckonable_Emission_Status",
+				"type": "String"
+			},
+			{
+				"name": "Energy_Conversion_Factor",
+				"type": "String"
+			},
+			{
+				"name": "Total_Gas_Emission_Factors",
+				"type": "String"
+			},
+			{
+				"name": "Data_Source_Detail",
+				"type": "String"
+			},
+			{
+				"name": "Grid_Emissions_Factor",
+				"type": "String"
+			},
+			{
+				"name": "Kg_Conversion",
+				"type": "String"
+			},
+			{
+				"name": "Metrics",
+				"type": "String"
+			},
+			{
+				"name": "KPI_Grouping",
+				"type": "String"
+			},
+			{
+				"name": "KPI_Indicator",
+				"type": "String"
+			},
+			{
+				"name": "Energy_Operational_Control",
+				"type": "String"
+			},
+			{
+				"name": "Energy_Equity_Share",
+				"type": "String"
+			},
+			{
+				"name": "Total_GHG_Emission_Operational Control",
+				"type": "String"
+			},
+			{
+				"name": "Total_GHG_Emission_Equity_Share",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

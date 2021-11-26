@@ -1,0 +1,33 @@
+{
+	"name": "unitconverter",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Units Converter.csv",
+				"container": "sustainability"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Required units",
+				"type": "String"
+			},
+			{
+				"name": "Conversion factor 2",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

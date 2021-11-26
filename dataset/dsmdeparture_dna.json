@@ -1,0 +1,90 @@
+{
+	"name": "dsmdeparture_dna",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "SOBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "EOBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AOBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ATOT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Delay_In_Minute",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Paired_Flight_Number",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Paired_SIBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Flight_ID",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "SOBT_Datetime_Offset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "EOBT_Datetime_Offset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "AOBT_Datetime_Offset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "ATOT_Datetime_Offset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "Paired_SIBT_Datetime_Offset",
+				"type": "datetimeoffset",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "paxflight_tbl_t_DepartureFlight_common"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

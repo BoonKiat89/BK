@@ -1,0 +1,160 @@
+{
+	"name": "paxreport_16Nov",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "PAX Load Summary",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "PAX_Load_Report_16-Nov-0300.xlsx",
+				"container": "paxloadreport"
+			},
+			"range": "A2:AH500",
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Flight",
+				"type": "String"
+			},
+			{
+				"name": "Terminal",
+				"type": "String"
+			},
+			{
+				"name": "STD",
+				"type": "String"
+			},
+			{
+				"name": "Check-in Time",
+				"type": "String"
+			},
+			{
+				"name": "STD Time Slot",
+				"type": "String"
+			},
+			{
+				"name": "DEST",
+				"type": "String"
+			},
+			{
+				"name": "A/C Type",
+				"type": "String"
+			},
+			{
+				"name": "A/C Config - F",
+				"type": "String"
+			},
+			{
+				"name": "A/C Config - J",
+				"type": "String"
+			},
+			{
+				"name": "A/C Config - S",
+				"type": "String"
+			},
+			{
+				"name": "A/C Config - Y",
+				"type": "String"
+			},
+			{
+				"name": "Availability - F",
+				"type": "String"
+			},
+			{
+				"name": "Availability - J",
+				"type": "String"
+			},
+			{
+				"name": "Availability - S",
+				"type": "String"
+			},
+			{
+				"name": "Availability - Y",
+				"type": "String"
+			},
+			{
+				"name": "Booked Load - F",
+				"type": "String"
+			},
+			{
+				"name": "Booked Load - J",
+				"type": "String"
+			},
+			{
+				"name": "Booked Load - S",
+				"type": "String"
+			},
+			{
+				"name": "Booked Load - Y",
+				"type": "String"
+			},
+			{
+				"name": "Inbound Load - F",
+				"type": "String"
+			},
+			{
+				"name": "Inbound Load - J",
+				"type": "String"
+			},
+			{
+				"name": "Inbound Load - S",
+				"type": "String"
+			},
+			{
+				"name": "Inbound Load - Y",
+				"type": "String"
+			},
+			{
+				"name": "Joiner Load - F",
+				"type": "String"
+			},
+			{
+				"name": "Joiner Load - J",
+				"type": "String"
+			},
+			{
+				"name": "Joiner Load - S",
+				"type": "String"
+			},
+			{
+				"name": "Joiner Load - Y",
+				"type": "String"
+			},
+			{
+				"name": "Group Load -  Y",
+				"type": "String"
+			},
+			{
+				"name": "Joiner Group - Y",
+				"type": "String"
+			},
+			{
+				"name": "LPPS",
+				"type": "String"
+			},
+			{
+				"name": "TPPS",
+				"type": "String"
+			},
+			{
+				"name": "PRM",
+				"type": "String"
+			},
+			{
+				"name": "Time",
+				"type": "String"
+			},
+			{
+				"name": "PML - F",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

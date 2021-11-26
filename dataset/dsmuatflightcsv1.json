@@ -1,0 +1,93 @@
+{
+	"name": "dsmuatflightcsv1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "dsmflight.csv",
+				"container": "transferai-flight"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Key",
+				"type": "String"
+			},
+			{
+				"name": "Airline",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Number",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Date",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Direction",
+				"type": "String"
+			},
+			{
+				"name": "Last_Updated",
+				"type": "String"
+			},
+			{
+				"name": "Origin",
+				"type": "String"
+			},
+			{
+				"name": "Destination",
+				"type": "String"
+			},
+			{
+				"name": "Aircraft_Type",
+				"type": "String"
+			},
+			{
+				"name": "Registration_Number",
+				"type": "String"
+			},
+			{
+				"name": "Routing",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Status",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Datetime_Offset",
+				"type": "String"
+			},
+			{
+				"name": "Last_Update_Datetime_Offset",
+				"type": "String"
+			},
+			{
+				"name": "Gate",
+				"type": "String"
+			},
+			{
+				"name": "Flight_Type",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

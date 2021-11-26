@@ -1,0 +1,107 @@
+{
+	"name": "susmonthlysimulated",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Sustainability Report Input Collation_simulated.xlsx",
+				"container": "sustainabilitymonthly"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "S/N",
+				"type": "String"
+			},
+			{
+				"name": "Report Submitted by",
+				"type": "String"
+			},
+			{
+				"name": "Email Address of person who submitted report",
+				"type": "String"
+			},
+			{
+				"name": "Report Cleared by",
+				"type": "String"
+			},
+			{
+				"name": "Report Period",
+				"type": "String"
+			},
+			{
+				"name": "Submission Date",
+				"type": "String"
+			},
+			{
+				"name": "Entity name",
+				"type": "String"
+			},
+			{
+				"name": "Facility Description",
+				"type": "String"
+			},
+			{
+				"name": "Consumption Type",
+				"type": "String"
+			},
+			{
+				"name": "Emission Source",
+				"type": "String"
+			},
+			{
+				"name": "Emission Point",
+				"type": "String"
+			},
+			{
+				"name": "Description",
+				"type": "String"
+			},
+			{
+				"name": "Data Source",
+				"type": "String"
+			},
+			{
+				"name": "Measured Value",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "Value",
+				"type": "String"
+			},
+			{
+				"name": "Filename in Sharepoint",
+				"type": "String"
+			},
+			{
+				"name": "Sheetname",
+				"type": "String"
+			},
+			{
+				"name": "Row",
+				"type": "String"
+			},
+			{
+				"name": "Column",
+				"type": "String"
+			},
+			{
+				"name": "Remarks",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

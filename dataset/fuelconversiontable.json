@@ -1,0 +1,45 @@
+{
+	"name": "fuelconversiontable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Fuel conversion table.csv",
+				"container": "sustainability"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "FY",
+				"type": "String"
+			},
+			{
+				"name": "Consumption Type",
+				"type": "String"
+			},
+			{
+				"name": "Measured units",
+				"type": "String"
+			},
+			{
+				"name": "Required units",
+				"type": "String"
+			},
+			{
+				"name": "Conversion factor",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

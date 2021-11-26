@@ -1,0 +1,17 @@
+{
+	"name": "ops_stats_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "operation_tbl_t_OpsStats"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

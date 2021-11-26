@@ -1,0 +1,203 @@
+{
+	"name": "susmonthlyytdtouse",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Sustainabilitly_Analytic_Key",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Serial_No",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Financial_Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Report_Submitted_By",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Report_Cleared_By",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Report_Period",
+				"type": "date"
+			},
+			{
+				"name": "Submission_Date",
+				"type": "date"
+			},
+			{
+				"name": "Entity_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Facility_Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Consumption_Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Emission_Source",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Emission_Point",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data_Source",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Measured_Units",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Location",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Value",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "FY_Mod",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Place_of_Business",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Classification",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sats_Effective_Interest",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Principle_Activities",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Coy_Control",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Equity_Share",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Operational_Control",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Emission_Scope",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Required_Units",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Conversion_Factor",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Reckonable_Emission_Status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Energy_Conversion_Factor",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Total_Gas_Emission_Factors",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Data_Source_Detail",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Grid_Emissions_Factor",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Kg_Conversion",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Metrics",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KPI_Grouping",
+				"type": "nvarchar"
+			},
+			{
+				"name": "KPI_Indicator",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Energy_Operational_Control",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Energy_Equity_Share",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Total_GHG_Emission_Operational Control",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "Total_GHG_Emission_Equity_Share",
+				"type": "real",
+				"precision": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sustainability_tbl_t_EquipmentSubmission_SustainabilityAnalytics"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

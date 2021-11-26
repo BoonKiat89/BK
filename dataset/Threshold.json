@@ -1,0 +1,40 @@
+{
+	"name": "Threshold",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "WW Threshold",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "WW_submission.xlsx",
+				"container": "otpww"
+			},
+			"range": "A2:D5",
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Shift",
+				"type": "String"
+			},
+			{
+				"name": "Size",
+				"type": "String"
+			},
+			{
+				"name": "Healthy",
+				"type": "String"
+			},
+			{
+				"name": "Amber",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

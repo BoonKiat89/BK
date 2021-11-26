@@ -1,0 +1,52 @@
+{
+	"name": "opsstats",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "opsstats_2122",
+						"type": "DatasetReference"
+					},
+					"name": "opsstats2122"
+				},
+				{
+					"dataset": {
+						"referenceName": "opsstats2122",
+						"type": "DatasetReference"
+					},
+					"name": "opsstatsmar21"
+				},
+				{
+					"dataset": {
+						"referenceName": "opsstatsmar21sql",
+						"type": "DatasetReference"
+					},
+					"name": "opsstatssqlmar21"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ops_stats_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\t{S/N} as integer,\n\t\tPeriod as date,\n\t\tMetrics as string,\n\t\tType as string,\n\t\t{Sub-Type} as string,\n\t\t{FSC/LCC} as string,\n\t\tEntity as string,\n\t\t{Ops Stats} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> opsstats2122\nsource(output(\n\t\t{S/N} as integer,\n\t\tMetrics as string,\n\t\tType as string,\n\t\t{Sub-Type} as string,\n\t\t{FSC/LCC} as string,\n\t\tEntity as string,\n\t\tPeriod as date,\n\t\t{Ops Stats} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> opsstatsmar21\nsource(output(\n\t\tSerial_Number as integer,\n\t\tMetrics as string,\n\t\tType as string,\n\t\tSub_Type as string,\n\t\tFSC_LCC as string,\n\t\tEntity_Name as string,\n\t\tReport_Period as date,\n\t\tOps_Stats as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> opsstatssqlmar21\nopsstats2122 select(mapColumn(\n\t\tSerial_Number = {S/N},\n\t\tMetrics,\n\t\tType,\n\t\t{Sub-Type},\n\t\tFSC_LCC = {FSC/LCC},\n\t\tEntity_Name = Entity,\n\t\tReport_Period = Period,\n\t\tOps_Stats = {Ops Stats}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 derive(Ops_Stats_Key = concat(toString(Serial_Number), toString(Report_Period))) ~> DerivedColumn1\nDerivedColumn1, opsstatssqlmar21 union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tSerial_Number,\n\t\tMetrics,\n\t\tType,\n\t\t{Sub-Type},\n\t\tFSC_LCC,\n\t\tEntity_Name,\n\t\tReport_Period,\n\t\tOps_Stats,\n\t\tOps_Stats_Key\n\t)) ~> sink1"
+		}
+	}
+}

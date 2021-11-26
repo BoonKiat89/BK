@@ -1,0 +1,32 @@
+{
+	"name": "sustainability_historical",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sustainability_historical_mar21",
+						"type": "DatasetReference"
+					},
+					"name": "sustainabilityhistorical"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "sushistoricalhistoricalmar21",
+						"type": "DatasetReference"
+					},
+					"name": "sushistoricalsqlsink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\tSustainabilitly_Analytic_Key as string,\n\t\tSerial_No as integer '##0',\n\t\tFinancial_Year as integer '##0',\n\t\tReport_Submitted_By as string,\n\t\tEmail as string,\n\t\tReport_Cleared_By as string,\n\t\tReport_Period as date 'MM-yyyy',\n\t\tSubmission_Date as date 'dd-MM-yyyy',\n\t\tEntity_Name as string,\n\t\tFacility_Description as string,\n\t\tConsumption_Type as string,\n\t\tEmission_Source as string,\n\t\tEmission_Point as string,\n\t\tDescription as string,\n\t\tData_Source as string,\n\t\tMeasured_Units as string,\n\t\tLocation as string,\n\t\tValue as float '###.##',\n\t\tFY_Mod as string,\n\t\tPlace_of_Business as string,\n\t\tClassification as string,\n\t\tSats_Effective_Interest as float '###.##',\n\t\tPrinciple_Activities as string,\n\t\tCoy_Control as string,\n\t\tEquity_Share as float '###.##',\n\t\tOperational_Control as float '###.##',\n\t\tEmission_Scope as string,\n\t\tRequired_Units as string,\n\t\tConversion_Factor as float '###.##',\n\t\tReckonable_Emission_Status as string,\n\t\tEnergy_Conversion_Factor as float '###.##',\n\t\tTotal_Gas_Emission_Factors as float '###.##',\n\t\tData_Source_Detail as float '###.##',\n\t\tGrid_Emissions_Factor as float '###.##',\n\t\tKg_Conversion as float '###.##',\n\t\tMetrics as string,\n\t\tKPI_Grouping as string,\n\t\tKPI_Indicator as integer '000',\n\t\tEnergy_Operational_Control as float '###.##',\n\t\tEnergy_Equity_Share as float '###.##',\n\t\t{Total_GHG_Emission_Operational Control} as float '###.##',\n\t\tTotal_GHG_Emission_Equity_Share as float '###.##'\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sustainabilityhistorical\nsustainabilityhistorical select(mapColumn(\n\t\tSustainabilitly_Analytic_Key,\n\t\tSerial_No,\n\t\tFinancial_Year,\n\t\tReport_Submitted_By,\n\t\tEmail,\n\t\tReport_Cleared_By,\n\t\tReport_Period,\n\t\tSubmission_Date,\n\t\tEntity_Name,\n\t\tFacility_Description,\n\t\tConsumption_Type,\n\t\tEmission_Source,\n\t\tEmission_Point,\n\t\tDescription,\n\t\tData_Source,\n\t\tMeasured_Units,\n\t\tLocation,\n\t\tValue,\n\t\tFY_Mod,\n\t\tPlace_of_Business,\n\t\tClassification,\n\t\tSats_Effective_Interest,\n\t\tPrinciple_Activities,\n\t\tCoy_Control,\n\t\tEquity_Share,\n\t\tOperational_Control,\n\t\tEmission_Scope,\n\t\tRequired_Units,\n\t\tConversion_Factor,\n\t\tReckonable_Emission_Status,\n\t\tEnergy_Conversion_Factor,\n\t\tTotal_Gas_Emission_Factors,\n\t\tData_Source_Detail,\n\t\tGrid_Emissions_Factor,\n\t\tKg_Conversion,\n\t\tMetrics,\n\t\tKPI_Grouping,\n\t\tKPI_Indicator,\n\t\tEnergy_Operational_Control,\n\t\tEnergy_Equity_Share,\n\t\t{Total_GHG_Emission_Operational Control},\n\t\tTotal_GHG_Emission_Equity_Share\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sushistoricalsqlsink"
+		}
+	}
+}

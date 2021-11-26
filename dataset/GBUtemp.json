@@ -1,0 +1,87 @@
+{
+	"name": "GBUtemp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Summary",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Flight_Schedule_for_Dashboard.xlsx",
+				"container": "otpww"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "key",
+				"type": "String"
+			},
+			{
+				"name": "Airline",
+				"type": "String"
+			},
+			{
+				"name": "Flight",
+				"type": "String"
+			},
+			{
+				"name": "A/C Type",
+				"type": "String"
+			},
+			{
+				"name": "STD",
+				"type": "String"
+			},
+			{
+				"name": "Routing",
+				"type": "String"
+			},
+			{
+				"name": "Datetime",
+				"type": "String"
+			},
+			{
+				"name": "GBU Status",
+				"type": "String"
+			},
+			{
+				"name": "GBU Status Update date",
+				"type": "String"
+			},
+			{
+				"name": "GBU Status Update time",
+				"type": "String"
+			},
+			{
+				"name": "ADA/ADRA status",
+				"type": "String"
+			},
+			{
+				"name": "ADA/ADRA Status Update date",
+				"type": "String"
+			},
+			{
+				"name": "ADA/ADRA Status Update time ",
+				"type": "String"
+			},
+			{
+				"name": "BCRA status",
+				"type": "String"
+			},
+			{
+				"name": "BCRA Stauts Update date ",
+				"type": "String"
+			},
+			{
+				"name": "BCRA Stauts Update time",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

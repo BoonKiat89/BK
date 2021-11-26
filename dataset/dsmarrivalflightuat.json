@@ -1,0 +1,90 @@
+{
+	"name": "dsmarrivalflightuat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dsmuat",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "SIBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "EIBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "AIBT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ALDT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DelayInMinutes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PairedFlightNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PairedSobt",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Flight_ID",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "SIBTDateTimeOffset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "EIBTDateTimeOffset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "AIBTDateTimeOffset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "ALDTDateTimeOffset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "PairedSobtDateTimeOffset",
+				"type": "datetimeoffset",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ArrivalFlight"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

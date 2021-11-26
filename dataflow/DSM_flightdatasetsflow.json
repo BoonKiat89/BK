@@ -1,0 +1,28 @@
+{
+	"name": "DSM_flightdatasetsflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsmuatflightsql",
+						"type": "DatasetReference"
+					},
+					"name": "dsmflightuatsql"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dnaflightuatsqlnew",
+						"type": "DatasetReference"
+					},
+					"name": "dnaflightuatsql"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID as string,\n\t\tFlightKey as string,\n\t\tAirline as string,\n\t\tFlightNumber as string,\n\t\tFlightDate as timestamp,\n\t\tFlightDirection as string,\n\t\tLastUpdated as timestamp,\n\t\tOrigin as string,\n\t\tDestination as string,\n\t\tAircraftType as string,\n\t\tRegistrationNumber as string,\n\t\tRouting as string,\n\t\tFlightStatus as string,\n\t\tFlightDateTimeOFfset as string,\n\t\tLastUpdateDateTimeOffset as string,\n\t\tGate as string,\n\t\tFlightType as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> dsmflightuatsql\ndsmflightuatsql sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID,\n\t\tFlight_Key = FlightKey,\n\t\tAirline,\n\t\tFlight_Number = FlightNumber,\n\t\tFlight_Date = FlightDate,\n\t\tFlight_Direction = FlightDirection,\n\t\tLast_Updated = LastUpdated,\n\t\tOrigin,\n\t\tDestination,\n\t\tAircraft_Type = AircraftType,\n\t\tRegistration_Number = RegistrationNumber,\n\t\tRouting,\n\t\tFlight_Status = FlightStatus,\n\t\tFlight_Datetime_Offset = FlightDateTimeOFfset,\n\t\tLast_Update_Datetime_Offset = LastUpdateDateTimeOffset,\n\t\tGate,\n\t\tFlight_Type = FlightType\n\t)) ~> dnaflightuatsql"
+		}
+	}
+}

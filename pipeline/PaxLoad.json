@@ -1,0 +1,34 @@
+{
+	"name": "PaxLoad",
+	"properties": {
+		"activities": [
+			{
+				"name": "paxloadreport_historical",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "paxloadreport_historical",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-11-24T13:44:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

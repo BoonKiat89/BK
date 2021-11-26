@@ -1,0 +1,57 @@
+{
+	"name": "otpflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsmdatabaseflight",
+						"type": "DatasetReference"
+					},
+					"name": "dsmflight"
+				},
+				{
+					"dataset": {
+						"referenceName": "dsmarrivalflightuat",
+						"type": "DatasetReference"
+					},
+					"name": "dsmarrivalflight"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OTPdatabase",
+						"type": "DatasetReference"
+					},
+					"name": "sinktosqldatabase"
+				}
+			],
+			"transformations": [
+				{
+					"name": "removecolumn"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "Filter2"
+				},
+				{
+					"name": "JoinwithFlightArrival"
+				},
+				{
+					"name": "changecolumnname"
+				},
+				{
+					"name": "addcolumn"
+				},
+				{
+					"name": "removecolumn2"
+				}
+			],
+			"script": "source(output(\n\t\tID as string,\n\t\tFlightKey as string,\n\t\tAirline as string,\n\t\tFlightNumber as string,\n\t\tFlightDate as timestamp,\n\t\tFlightDirection as string,\n\t\tLastUpdated as timestamp,\n\t\tOrigin as string,\n\t\tDestination as string,\n\t\tAircraftType as string,\n\t\tRegistrationNumber as string,\n\t\tRouting as string,\n\t\tFlightStatus as string,\n\t\tFlightDateTimeOFfset as string,\n\t\tLastUpdateDateTimeOffset as string,\n\t\tGate as string,\n\t\tFlightType as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> dsmflight\nsource(output(\n\t\tID as string,\n\t\tSIBT as timestamp,\n\t\tEIBT as timestamp,\n\t\tAIBT as timestamp,\n\t\tALDT as timestamp,\n\t\tDelayInMinutes as integer,\n\t\tPairedFlightNumber as string,\n\t\tPairedSobt as timestamp,\n\t\tFlight_ID as string,\n\t\tSIBTDateTimeOffset as string,\n\t\tEIBTDateTimeOffset as string,\n\t\tAIBTDateTimeOffset as string,\n\t\tALDTDateTimeOffset as string,\n\t\tPairedSobtDateTimeOffset as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> dsmarrivalflight\nFilter2 select(mapColumn(\n\t\tID,\n\t\tAirline,\n\t\tFlightNumber,\n\t\tFlightDate,\n\t\tLastUpdated,\n\t\tAircraftType,\n\t\tRouting\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> removecolumn\ndsmflight filter(toDate(FlightDate) > addDays(currentDate(),-2)) ~> Filter1\nFilter1 filter(FlightType == \"PAX\") ~> Filter2\nremovecolumn, removecolumn2 join(removecolumn@ID == removecolumn2@ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinwithFlightArrival\nJoinwithFlightArrival select(mapColumn(\n\t\tID = removecolumn@ID,\n\t\tAirline,\n\t\tFlight = FlightNumber,\n\t\tSTD = FlightDate,\n\t\tLastUpdated,\n\t\tAC_Type = AircraftType,\n\t\tRouting,\n\t\tDatetime = SIBT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> changecolumnname\nchangecolumnname derive(GBU_Status = \"\",\n\t\tADA_ADRA_Status = \"\",\n\t\tBCRA_Status = \"\",\n\t\tModified_Date = \"\",\n\t\tModified_By = \"\",\n\t\tDay = case(dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==1,\"Sun\",dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==2,\"Mon\",dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==3,\"Tue\",dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==4,\"Wed\",dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==5,\"Thu\",dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==6,\"Fri\",dayOfWeek(toDate(toString(Datetime),'yyyy-MM-dd'))==7,\"Sat\"),\n\t\tNow = currentUTC(),\n\t\tDate_Difference_Now = \"\",\n\t\tDate_and_Time = concat(toString(Datetime,'dd/MM/yyyy'),\" \", toString(STD))) ~> addcolumn\ndsmarrivalflight select(mapColumn(\n\t\tID,\n\t\tSIBT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> removecolumn2\naddcolumn sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sinktosqldatabase"
+		}
+	}
+}

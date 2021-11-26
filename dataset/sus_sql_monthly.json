@@ -1,0 +1,17 @@
+{
+	"name": "sus_sql_monthly",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sustainability_tbl_t_EquipmentSubmission_SustainabilityAnalytics_monthly"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "opsstatshistorical",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "opsstatstillmar21",
+						"type": "DatasetReference"
+					},
+					"name": "opsstatshistorical"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable3",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\t{S/N} as integer,\n\t\tMetrics as string,\n\t\tType as string,\n\t\t{Sub-Type} as string,\n\t\t{FSC/LCC} as string,\n\t\tEntity as string,\n\t\tPeriod as date,\n\t\t{Ops Stats} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> opsstatshistorical\nSelect1 derive(Ops_Stats_Key = concat(toString(Serial_Number), toString(Report_Period))) ~> DerivedColumn1\nopsstatshistorical select(mapColumn(\n\t\tSerial_Number = {S/N},\n\t\tMetrics,\n\t\tType,\n\t\tSub_Type = {Sub-Type},\n\t\tFSC_LCC = {FSC/LCC},\n\t\tEntity_Name = Entity,\n\t\tReport_Period = Period,\n\t\tOps_Stats = {Ops Stats}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tSerial_Number,\n\t\tMetrics,\n\t\tType,\n\t\tSub_Type,\n\t\tFSC_LCC,\n\t\tEntity_Name,\n\t\tReport_Period,\n\t\tOps_Stats,\n\t\tOps_Stats_Key\n\t)) ~> sink1"
+		}
+	}
+}

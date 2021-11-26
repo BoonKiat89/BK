@@ -1,0 +1,48 @@
+{
+	"name": "Cart",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "WWW",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "WW_submission.xlsx",
+				"container": "otpww"
+			},
+			"range": "A5:F11",
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Date",
+				"type": "String"
+			},
+			{
+				"name": "Shift",
+				"type": "String"
+			},
+			{
+				"name": "Airline",
+				"type": "String"
+			},
+			{
+				"name": "Size",
+				"type": "String"
+			},
+			{
+				"name": "Soiled Carts Washed",
+				"type": "String"
+			},
+			{
+				"name": "Soiled Carts Balanced",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

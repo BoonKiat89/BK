@@ -1,0 +1,17 @@
+{
+	"name": "DsmUATTempDatabaseDna",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "paxflight_tbl_t_DepartureFlight_common_temp"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

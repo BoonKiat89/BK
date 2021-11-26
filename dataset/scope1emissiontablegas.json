@@ -1,0 +1,69 @@
+{
+	"name": "scope1emissiontablegas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Scope 1 Emission Table (Gas).csv",
+				"container": "sustainability"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "FY",
+				"type": "String"
+			},
+			{
+				"name": "Consumption Type",
+				"type": "String"
+			},
+			{
+				"name": "Emission Scope",
+				"type": "String"
+			},
+			{
+				"name": "CO2 Emission Factor",
+				"type": "String"
+			},
+			{
+				"name": "CO2 GWP",
+				"type": "String"
+			},
+			{
+				"name": "CH4 Emission Factor",
+				"type": "String"
+			},
+			{
+				"name": "CH4 GWP",
+				"type": "String"
+			},
+			{
+				"name": "N2O Emission Factor",
+				"type": "String"
+			},
+			{
+				"name": "N2O GWP",
+				"type": "String"
+			},
+			{
+				"name": "Total Gas Emission Factors",
+				"type": "String"
+			},
+			{
+				"name": "Source",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

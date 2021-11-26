@@ -1,0 +1,17 @@
+{
+	"name": "sussqlhistoricaltillmar21",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sustainability_tbl_t_SustainabilityAnalytics_Historical"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

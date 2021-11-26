@@ -1,0 +1,41 @@
+{
+	"name": "scope2emissiontable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Scope 2 Emission Table.csv",
+				"container": "sustainability"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "FY",
+				"type": "String"
+			},
+			{
+				"name": "Place of Incorporation / Place of Business",
+				"type": "String"
+			},
+			{
+				"name": "Emission Scope",
+				"type": "String"
+			},
+			{
+				"name": "Grid Emissions factor",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "reportingperiodconvention",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Reporting Period Convention",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Reporting Period Convention.xlsx",
+				"container": "sustainability"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Report Period",
+				"type": "String"
+			},
+			{
+				"name": "FY",
+				"type": "String"
+			},
+			{
+				"name": "FY (Mod)",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

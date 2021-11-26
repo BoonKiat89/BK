@@ -1,0 +1,77 @@
+{
+	"name": "WW Flow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Name",
+						"type": "DatasetReference"
+					},
+					"name": "Name"
+				},
+				{
+					"dataset": {
+						"referenceName": "Cart",
+						"type": "DatasetReference"
+					},
+					"name": "Cart"
+				},
+				{
+					"dataset": {
+						"referenceName": "Threshold",
+						"type": "DatasetReference"
+					},
+					"name": "Threshold"
+				},
+				{
+					"dataset": {
+						"referenceName": "GBUtemp",
+						"type": "DatasetReference"
+					},
+					"name": "GBUtemp"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Namesql",
+						"type": "DatasetReference"
+					},
+					"name": "Namesql"
+				},
+				{
+					"dataset": {
+						"referenceName": "Cartsql",
+						"type": "DatasetReference"
+					},
+					"name": "Cartsql"
+				},
+				{
+					"dataset": {
+						"referenceName": "Thresholdsql",
+						"type": "DatasetReference"
+					},
+					"name": "Thresholdsql"
+				},
+				{
+					"dataset": {
+						"referenceName": "GBUtempsql",
+						"type": "DatasetReference"
+					},
+					"name": "GBUtempsql"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddColumns"
+				},
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "source(output(\n\t\t{Date (D/M/YYYY)} as string,\n\t\tShift as string,\n\t\t{Shift Hr} as string,\n\t\tCSE as string,\n\t\t{WW Staff} as string,\n\t\t{WW Supervisors} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Name\nsource(output(\n\t\tDate as date,\n\t\tShift as string,\n\t\tAirline as string,\n\t\tSize as string,\n\t\t{Soiled Carts Washed} as string,\n\t\t{Soiled Carts Balanced} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Cart\nsource(output(\n\t\tShift as string,\n\t\tSize as string,\n\t\tHealthy as string,\n\t\tAmber as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Threshold\nsource(output(\n\t\tkey as integer '000',\n\t\tAirline as string,\n\t\tFlight as string,\n\t\t{A/C Type} as string,\n\t\tSTD as string,\n\t\tRouting as string,\n\t\tDatetime as string,\n\t\t{GBU Status} as string,\n\t\t{GBU Status Update date} as string,\n\t\t{GBU Status Update time} as string,\n\t\t{ADA/ADRA status} as string,\n\t\t{ADA/ADRA Status Update date} as string,\n\t\t{ADA/ADRA Status Update time } as string,\n\t\t{BCRA status} as string,\n\t\t{BCRA Stauts Update date } as string,\n\t\t{BCRA Stauts Update time} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> GBUtemp\nGBUtemp derive({Modified Date} = \"nil\",\n\t\t{Modified By} = \"nil\",\n\t\tDay = case(dayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==1,\"Sun\",\r\ndayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==2,\"Mon\",\r\ndayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==3,\"Tue\",\r\ndayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==4,\"Wed\",\r\ndayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==5,\"Thu\",\r\ndayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==6,\"Fri\",\r\ndayOfWeek(toDate(Datetime,'yyyy-MM-dd'))==7,\"Sat\"),\n\t\tDate = toDate(Datetime,'yyyy-MM-dd'),\n\t\tTime = STD,\n\t\tAC_Type = {A/C Type},\n\t\tDifference = minus(toDate(\"2021-10-01\", 'yyyy-MM-dd'),toDate(Datetime,'yyyy-MM-dd')),\n\t\tNow = currentUTC(),\n\t\tDate_and_time = concat(toString(toDate(Datetime,'yyyy-MM-dd'),'dd/MM/yyyy'),\" \", STD)) ~> AddColumns\nName select(mapColumn(\n\t\t{Date (D/M/YYYY)},\n\t\tShift,\n\t\t{Shift Hr},\n\t\tCSE,\n\t\t{WW Staff},\n\t\t{WW Supervisors}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Namesql\nCart sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Cartsql\nThreshold sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Thresholdsql\nAddColumns sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> GBUtempsql"
+		}
+	}
+}

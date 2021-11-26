@@ -1,0 +1,45 @@
+{
+	"name": "Watermarkflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dsmuatflightcsv1",
+						"type": "DatasetReference"
+					},
+					"name": "dsmflightuat"
+				},
+				{
+					"dataset": {
+						"referenceName": "dsmflightcombineduatsql",
+						"type": "DatasetReference"
+					},
+					"name": "dsmflightcombineduat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dsmflightcombinedfinaluatsql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "removeduplicate"
+				},
+				{
+					"name": "Sort1"
+				}
+			],
+			"script": "source(output(\n\t\tID as string,\n\t\tFlight_Key as string,\n\t\tAirline as string,\n\t\tFlight_Number as string,\n\t\tFlight_Date as timestamp,\n\t\tFlight_Direction as string,\n\t\tLast_Updated as timestamp,\n\t\tOrigin as string,\n\t\tDestination as string,\n\t\tAircraft_Type as string,\n\t\tRegistration_Number as string,\n\t\tRouting as string,\n\t\tFlight_Status as string,\n\t\tFlight_Datetime_Offset as string,\n\t\tLast_Update_Datetime_Offset as string,\n\t\tGate as string,\n\t\tFlight_Type as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> dsmflightuat\nsource(output(\n\t\tID as string,\n\t\tFlight_Key as string,\n\t\tAirline as string,\n\t\tFlight_Number as string,\n\t\tFlight_Date as timestamp,\n\t\tFlight_Direction as string,\n\t\tLast_Updated as timestamp,\n\t\tOrigin as string,\n\t\tDestination as string,\n\t\tAircraft_Type as string,\n\t\tRegistration_Number as string,\n\t\tRouting as string,\n\t\tFlight_Status as string,\n\t\tFlight_Datetime_Offset as string,\n\t\tLast_Update_Datetime_Offset as string,\n\t\tGate as string,\n\t\tFlight_Type as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> dsmflightcombineduat\ndsmflightuat, dsmflightcombineduat union(byName: true)~> Union1\nSort1 aggregate(groupBy(ID),\n\teach(match(name!='ID'), $$ = first($$))) ~> removeduplicate\nUnion1 sort(desc(Last_Update_Datetime_Offset, true)) ~> Sort1\nremoveduplicate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tpartitionBy('hash', 1)) ~> sink1"
+		}
+	}
+}

@@ -1,0 +1,92 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dsmuat",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "FlightKey",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Airline",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlightNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlightDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FlightDirection",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastUpdated",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Origin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Destination",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AircraftType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RegistrationNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Routing",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlightStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlightDateTimeOFfset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDateTimeOffset",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "Gate",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FlightType",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Flight"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

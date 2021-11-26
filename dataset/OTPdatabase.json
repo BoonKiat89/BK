@@ -1,0 +1,17 @@
+{
+	"name": "OTPdatabase",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "inflight_tbl_t_EquipmentStatus_otp"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,61 @@
+{
+	"name": "coycat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dnauatblob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Coy Categorisation.csv",
+				"container": "sustainability"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "FY",
+				"type": "String"
+			},
+			{
+				"name": "Entity name",
+				"type": "String"
+			},
+			{
+				"name": "Place of Incorporation / Place of Business",
+				"type": "String"
+			},
+			{
+				"name": "Classification",
+				"type": "String"
+			},
+			{
+				"name": "SATS Ltd. Effective Interest",
+				"type": "String"
+			},
+			{
+				"name": "Principal Activities",
+				"type": "String"
+			},
+			{
+				"name": "Coy Control",
+				"type": "String"
+			},
+			{
+				"name": "Equity share",
+				"type": "String"
+			},
+			{
+				"name": "Operational control",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

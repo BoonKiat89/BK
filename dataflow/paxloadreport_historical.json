@@ -1,0 +1,57 @@
+{
+	"name": "paxloadreport_historical",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "paxload_15nov",
+						"type": "DatasetReference"
+					},
+					"name": "report15Nov"
+				},
+				{
+					"dataset": {
+						"referenceName": "paxreport_16Nov",
+						"type": "DatasetReference"
+					},
+					"name": "report16Nov"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "PaxLoadSQL",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "Unpivot1"
+				},
+				{
+					"name": "DerivedColumn3"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Select2"
+				}
+			],
+			"script": "source(output(\n\t\tFlight as string,\n\t\tTerminal as string,\n\t\tSTD as string,\n\t\t{Check-in Time} as string,\n\t\t{STD Time Slot} as string,\n\t\tDEST as string,\n\t\t{A/C Type} as string,\n\t\t{A/C Config - F} as integer,\n\t\t{A/C Config - J} as integer,\n\t\t{A/C Config - S} as integer,\n\t\t{A/C Config - Y} as integer,\n\t\t{Availability - F} as integer,\n\t\t{Availability - J} as integer,\n\t\t{Availability - S} as integer,\n\t\t{Availability - Y} as integer,\n\t\t{Booked Load - F} as integer,\n\t\t{Booked Load - J} as integer,\n\t\t{Booked Load - S} as integer,\n\t\t{Booked Load - Y} as integer,\n\t\t{Inbound Load - F} as integer,\n\t\t{Inbound Load - J} as integer,\n\t\t{Inbound Load - S} as integer,\n\t\t{Inbound Load - Y} as integer,\n\t\t{Joiner Load - F} as integer,\n\t\t{Joiner Load - J} as integer,\n\t\t{Joiner Load - S} as integer,\n\t\t{Joiner Load - Y} as integer,\n\t\t{Group Load -  Y} as integer,\n\t\t{Joiner Group - Y} as integer,\n\t\tLPPS as integer,\n\t\tTPPS as integer,\n\t\tPRM as integer,\n\t\tTime as string,\n\t\t{PML - F} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> report15Nov\nsource(output(\n\t\tFlight as string,\n\t\tTerminal as string,\n\t\tSTD as string,\n\t\t{Check-in Time} as string,\n\t\t{STD Time Slot} as string,\n\t\tDEST as string,\n\t\t{A/C Type} as string,\n\t\t{A/C Config - F} as integer,\n\t\t{A/C Config - J} as integer,\n\t\t{A/C Config - S} as integer,\n\t\t{A/C Config - Y} as integer,\n\t\t{Availability - F} as integer,\n\t\t{Availability - J} as integer,\n\t\t{Availability - S} as integer,\n\t\t{Availability - Y} as integer,\n\t\t{Booked Load - F} as integer,\n\t\t{Booked Load - J} as integer,\n\t\t{Booked Load - S} as integer,\n\t\t{Booked Load - Y} as integer,\n\t\t{Inbound Load - F} as integer,\n\t\t{Inbound Load - J} as integer,\n\t\t{Inbound Load - S} as integer,\n\t\t{Inbound Load - Y} as integer,\n\t\t{Joiner Load - F} as integer,\n\t\t{Joiner Load - J} as integer,\n\t\t{Joiner Load - S} as integer,\n\t\t{Joiner Load - Y} as integer,\n\t\t{Group Load -  Y} as integer,\n\t\t{Joiner Group - Y} as integer,\n\t\tLPPS as integer,\n\t\tTPPS as integer,\n\t\tPRM as integer,\n\t\tTime as string,\n\t\t{PML - F} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> report16Nov\nDerivedColumn1, DerivedColumn2 union(byName: true)~> Union1\nreport15Nov derive(Date = toDate('2021-11-15')) ~> DerivedColumn1\nreport16Nov derive(Date = toDate('2021-11-16')) ~> DerivedColumn2\nSelect1 unpivot(output(\n\t\tCustomer_Seat_Type as string,\n\t\tPax as integer\n\t),\n\tungroupBy(Flight,\n\t\tTerminal,\n\t\tTime,\n\t\tCheck_in_Time,\n\t\tTime_Slot,\n\t\tDEST,\n\t\tAC_Type,\n\t\t{PML - F},\n\t\tDate,\n\t\t{Time 2}),\n\tlateral: false,\n\tignoreNullPivots: true) ~> Unpivot1\nUnpivot1 derive(Customer_Type = dropRight(Customer_Seat_Type,3),\n\t\tSeat_Type = right(Customer_Seat_Type,1)) ~> DerivedColumn3\nUnion1 select(mapColumn(\n\t\tFlight,\n\t\tTerminal,\n\t\tTime = STD,\n\t\tCheck_in_Time = {Check-in Time},\n\t\tTime_Slot = {STD Time Slot},\n\t\tDEST,\n\t\tAC_Type = {A/C Type},\n\t\t{AC_Config - F} = {A/C Config - F},\n\t\t{AC_Config - J} = {A/C Config - J},\n\t\t{AC_Config - S} = {A/C Config - S},\n\t\t{AC_Config - Y} = {A/C Config - Y},\n\t\t{Availability - F},\n\t\t{Availability - J},\n\t\t{Availability - S},\n\t\t{Availability - Y},\n\t\t{Booked_Load - F} = {Booked Load - F},\n\t\t{Booked_Load - J} = {Booked Load - J},\n\t\t{Booked_Load - S} = {Booked Load - S},\n\t\t{Booked_Load - Y} = {Booked Load - Y},\n\t\t{Inbound_Load - F} = {Inbound Load - F},\n\t\t{Inbound_Load - J} = {Inbound Load - J},\n\t\t{Inbound_Load - S} = {Inbound Load - S},\n\t\t{Inbound_Load - Y} = {Inbound Load - Y},\n\t\t{Joiner_Load - F} = {Joiner Load - F},\n\t\t{Joiner_Load - J} = {Joiner Load - J},\n\t\t{Joiner_Load - S} = {Joiner Load - S},\n\t\t{Joiner_Load - Y} = {Joiner Load - Y},\n\t\t{Group_Load -  Y} = {Group Load -  Y},\n\t\t{Joiner_Group - Y} = {Joiner Group - Y},\n\t\t{LPPS - Z} = LPPS,\n\t\t{TPPS - Z} = TPPS,\n\t\t{PRM - Z} = PRM,\n\t\t{Time 2} = Time,\n\t\t{PML - F},\n\t\tDate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nDerivedColumn3 select(mapColumn(\n\t\tFlight,\n\t\tTerminal,\n\t\tTime,\n\t\t{Check-in Time} = Check_in_Time,\n\t\t{STD Time Slot} = Time_Slot,\n\t\tDEST,\n\t\t{A/C Type} = AC_Type,\n\t\tTime,\n\t\tPML = {PML - F},\n\t\tDate,\n\t\tPax,\n\t\tCustomer_Type,\n\t\tSeat_Type,\n\t\t{Time 2}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tFlight,\n\t\tTerminal,\n\t\tTime,\n\t\t{Check-in Time},\n\t\t{STD Time Slot},\n\t\tDEST,\n\t\t{A/C Type},\n\t\tPML,\n\t\tDate,\n\t\tPax,\n\t\tCustomer_Type,\n\t\tSeat_Type,\n\t\t{Time 2}\n\t)) ~> sink1"
+		}
+	}
+}

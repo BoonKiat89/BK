@@ -1,0 +1,17 @@
+{
+	"name": "Namesql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "WW_Name"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,28 @@
+{
+	"name": "opsstatsyearlyrunonce",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ops_stats_sql",
+						"type": "DatasetReference"
+					},
+					"name": "Opsstatsmonthly"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "opsstatsmar21sql",
+						"type": "DatasetReference"
+					},
+					"name": "Opsstatsyearly"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Opsstatsmonthly\nOpsstatsmonthly sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tSerial_Number as integer,\n\t\tMetrics as string,\n\t\tType as string,\n\t\tSub_Type as string,\n\t\tFSC_LCC as string,\n\t\tEntity_Name as string,\n\t\tReport_Period as date,\n\t\tOps_Stats as float\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> Opsstatsyearly"
+		}
+	}
+}

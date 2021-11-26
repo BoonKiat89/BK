@@ -1,0 +1,141 @@
+{
+	"name": "monthlysussource",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "susmonthlysimulated",
+						"type": "DatasetReference"
+					},
+					"name": "susmonthlysimulated"
+				},
+				{
+					"dataset": {
+						"referenceName": "emissionscorcetoscope",
+						"type": "DatasetReference"
+					},
+					"name": "emissionscorcetoscope"
+				},
+				{
+					"dataset": {
+						"referenceName": "fuelconversiontable",
+						"type": "DatasetReference"
+					},
+					"name": "fuelconversiontable"
+				},
+				{
+					"dataset": {
+						"referenceName": "rekonableemissiontable",
+						"type": "DatasetReference"
+					},
+					"name": "reconableemissiontable"
+				},
+				{
+					"dataset": {
+						"referenceName": "reportingperiodconvention",
+						"type": "DatasetReference"
+					},
+					"name": "reportingperiodconvention"
+				},
+				{
+					"dataset": {
+						"referenceName": "scope1emissiontableenergy",
+						"type": "DatasetReference"
+					},
+					"name": "scope1emissiontableenergy"
+				},
+				{
+					"dataset": {
+						"referenceName": "scope1emissiontablegas",
+						"type": "DatasetReference"
+					},
+					"name": "scope1emissiontablegas"
+				},
+				{
+					"dataset": {
+						"referenceName": "scope2emissiontable",
+						"type": "DatasetReference"
+					},
+					"name": "scope2emissiontable"
+				},
+				{
+					"dataset": {
+						"referenceName": "unitconverter",
+						"type": "DatasetReference"
+					},
+					"name": "unitsconvertor"
+				},
+				{
+					"dataset": {
+						"referenceName": "coycat",
+						"type": "DatasetReference"
+					},
+					"name": "coycat"
+				},
+				{
+					"dataset": {
+						"referenceName": "ops_stats_identificaiton_main",
+						"type": "DatasetReference"
+					},
+					"name": "opsstatsidentificationmain"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "susmonthlysql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "Join8"
+				},
+				{
+					"name": "Join9"
+				},
+				{
+					"name": "Join10"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DerivedColumn2"
+				}
+			],
+			"script": "source(output(\n\t\t{S/N} as integer,\n\t\t{Report Submitted by} as string,\n\t\t{Email Address of person who submitted report} as string,\n\t\t{Report Cleared by} as string,\n\t\t{Report Period} as date 'MMM yyyy',\n\t\t{Submission Date} as date 'MMM yyyy',\n\t\t{Entity name} as string,\n\t\t{Facility Description} as string,\n\t\t{Consumption Type} as string,\n\t\t{Emission Source} as string,\n\t\t{Emission Point} as string,\n\t\tDescription as string,\n\t\t{Data Source} as string,\n\t\t{Measured Value} as string,\n\t\tLocation as string,\n\t\tValue as float,\n\t\t{Filename in Sharepoint} as string,\n\t\tSheetname as string,\n\t\tRow as string,\n\t\tColumn as string,\n\t\tRemarks as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> susmonthlysimulated\nsource(output(\n\t\t{Emission Source} as string,\n\t\t{Emission Scope} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> emissionscorcetoscope\nsource(output(\n\t\tFY as integer,\n\t\t{Consumption Type} as string,\n\t\t{Measured units} as string,\n\t\t{Required units} as string,\n\t\t{Conversion factor} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> fuelconversiontable\nsource(output(\n\t\t{Consumption Type} as string,\n\t\t{Reckonable Emission Status} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> reconableemissiontable\nsource(output(\n\t\t{Report Period} as date,\n\t\tFY as integer,\n\t\t{FY (Mod)} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> reportingperiodconvention\nsource(output(\n\t\t{Consumption Type} as string,\n\t\t{Emission Scope} as string,\n\t\t{Required units} as string,\n\t\t{Energy Conversion Factor} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> scope1emissiontableenergy\nsource(output(\n\t\tFY as integer,\n\t\t{Consumption Type} as string,\n\t\t{Emission Scope} as string,\n\t\t{CO2 Emission Factor} as string,\n\t\t{CO2 GWP} as string,\n\t\t{CH4 Emission Factor} as string,\n\t\t{CH4 GWP} as string,\n\t\t{N2O Emission Factor} as string,\n\t\t{N2O GWP} as string,\n\t\t{Total Gas Emission Factors} as float,\n\t\tSource as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> scope1emissiontablegas\nsource(output(\n\t\tFY as integer,\n\t\t{Place of Incorporation / Place of Business} as string,\n\t\t{Emission Scope} as string,\n\t\t{Grid Emissions factor} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> scope2emissiontable\nsource(output(\n\t\t{Required units} as string,\n\t\t{Conversion factor 2} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> unitsconvertor\nsource(output(\n\t\tFY as integer,\n\t\t{Entity name} as string,\n\t\t{Place of Incorporation / Place of Business} as string,\n\t\tClassification as string,\n\t\t{SATS Ltd. Effective Interest} as float,\n\t\t{Principal Activities} as string,\n\t\t{Coy Control} as string,\n\t\t{Equity share} as float,\n\t\t{Operational control} as float\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> coycat\nsource(output(\n\t\t{Entity name} as string,\n\t\t{Facility Description} as string,\n\t\tMetrics as string,\n\t\t{KPI Grouping} as string,\n\t\t{KPI Indicator} as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> opsstatsidentificationmain\nsusmonthlysimulated select(mapColumn(\n\t\t{S/N},\n\t\t{Report Submitted by},\n\t\t{Email Address of person who submitted report},\n\t\t{Report Cleared by},\n\t\t{Report Period},\n\t\t{Submission Date},\n\t\t{Entity name},\n\t\t{Facility Description},\n\t\t{Consumption Type},\n\t\t{Emission Source},\n\t\t{Emission Point},\n\t\tDescription,\n\t\t{Data Source},\n\t\t{Measured Value},\n\t\tLocation,\n\t\tValue\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1, reportingperiodconvention join(Select1@{Report Period} == reportingperiodconvention@{Report Period},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nJoin1, coycat join(reportingperiodconvention@FY == coycat@FY\n\t&& Select1@{Entity name} == coycat@{Entity name},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join2\nJoin2, fuelconversiontable join(reportingperiodconvention@FY == fuelconversiontable@FY\n\t&& Select1@{Consumption Type} == fuelconversiontable@{Consumption Type}\n\t&& {Measured Value} == {Measured units},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join3\nJoin3, reconableemissiontable join(Select1@{Consumption Type} == reconableemissiontable@{Consumption Type},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join4\nJoin6, scope1emissiontableenergy join(Select1@{Consumption Type} == scope1emissiontableenergy@{Consumption Type}\n\t&& emissionscorcetoscope@{Emission Scope} == scope1emissiontableenergy@{Emission Scope}\n\t&& fuelconversiontable@{Required units} == scope1emissiontableenergy@{Required units},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join5\nJoin4, emissionscorcetoscope join(Select1@{Emission Source} == emissionscorcetoscope@{Emission Source},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join6\nJoin5, scope1emissiontablegas join(reportingperiodconvention@FY == scope1emissiontablegas@FY\n\t&& Select1@{Consumption Type} == scope1emissiontablegas@{Consumption Type}\n\t&& emissionscorcetoscope@{Emission Scope} == scope1emissiontablegas@{Emission Scope},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join7\nJoin7, scope2emissiontable join(reportingperiodconvention@FY == scope2emissiontable@FY\n\t&& coycat@{Place of Incorporation / Place of Business} == scope2emissiontable@{Place of Incorporation / Place of Business}\n\t&& emissionscorcetoscope@{Emission Scope} == scope2emissiontable@{Emission Scope},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join8\nJoin8, unitsconvertor join(fuelconversiontable@{Required units} == unitsconvertor@{Required units},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join9\nJoin9, opsstatsidentificationmain join(Select1@{Entity name} == opsstatsidentificationmain@{Entity name}\n\t&& Select1@{Facility Description} == opsstatsidentificationmain@{Facility Description},\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join10\nJoin10 select(mapColumn(\n\t\tSerial_No = {S/N},\n\t\tReport_Submitted_by = {Report Submitted by},\n\t\tEmail = {Email Address of person who submitted report},\n\t\tReport_Cleared_By = {Report Cleared by},\n\t\tReport_Period = Select1@{Report Period},\n\t\tSubmission_Date = {Submission Date},\n\t\tEntity_Name = Select1@{Entity name},\n\t\tFacility_Description = Select1@{Facility Description},\n\t\tConsumption_Type = Select1@{Consumption Type},\n\t\tEmission_Source = Select1@{Emission Source},\n\t\tEmission_Point = {Emission Point},\n\t\tDescription,\n\t\tData_Source = {Data Source},\n\t\tMeasured_Units = {Measured Value},\n\t\tLocation,\n\t\tValue,\n\t\t{Report Period} = reportingperiodconvention@{Report Period},\n\t\tFinancial_Year = reportingperiodconvention@FY,\n\t\tFY_Mod = {FY (Mod)},\n\t\tPlace_of_Business = coycat@{Place of Incorporation / Place of Business},\n\t\tClassification,\n\t\t{ Sats_Effective_Interest} = {SATS Ltd. Effective Interest},\n\t\tPrincipal_Activities = {Principal Activities},\n\t\tCoy_Control = {Coy Control},\n\t\tEquity_Share = {Equity share},\n\t\tOperational_Control = {Operational control},\n\t\tConversion_Factor = {Conversion factor},\n\t\tReckonable_Emission_Status = {Reckonable Emission Status},\n\t\tEmission_Scope = emissionscorcetoscope@{Emission Scope},\n\t\tRequired_Units = scope1emissiontableenergy@{Required units},\n\t\tEnergy_Conversion_Factor = {Energy Conversion Factor},\n\t\tTotal_Gas_Emission_Factors = {Total Gas Emission Factors},\n\t\tData_Source_Detail = Source,\n\t\tGrid_Emissions_Factor = {Grid Emissions factor},\n\t\tKg_Conversion = {Conversion factor 2},\n\t\tMetrics,\n\t\tKPI_Grouping = {KPI Grouping},\n\t\tKPI_Indicator = {KPI Indicator}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect2 derive(Conversion_Factor = iif(isNull(Conversion_Factor), 1.0, Conversion_Factor),\n\t\tEnergy_Conversion_Factor = iif(isNull(Energy_Conversion_Factor), 1.0, Energy_Conversion_Factor),\n\t\tTotal_Gas_Emission_Factors = iif(isNull(Total_Gas_Emission_Factors), 1.0, Total_Gas_Emission_Factors),\n\t\tGrid_Emissions_Factor = iif(isNull(Grid_Emissions_Factor), 1.0, Grid_Emissions_Factor),\n\t\tKg_Conversion = iif(isNull(Kg_Conversion), 1.0, Kg_Conversion),\n\t\tSustainabilitly_Analytic_Key = concat(toString(Report_Period), Entity_Name, Emission_Point, toString(Serial_No))) ~> DerivedColumn1\nDerivedColumn1 derive(GHG_Emission_Operational_Control = multiply(Value,multiply(Grid_Emissions_Factor,multiply(Energy_Conversion_Factor,multiply(Total_Gas_Emission_Factors,multiply(Operational_Control,Conversion_Factor))))),\n\t\tEnergy_Operational_Control = multiply(Value,multiply(Energy_Conversion_Factor,multiply(Kg_Conversion,multiply(Operational_Control,Conversion_Factor)))),\n\t\tGHG_Emission_Equity_Share = multiply(Value,multiply(Grid_Emissions_Factor,multiply(Energy_Conversion_Factor,multiply(Total_Gas_Emission_Factors,multiply(Equity_Share,Conversion_Factor))))),\n\t\tEnergy_Equity_Share = multiply(Value,multiply(Energy_Conversion_Factor,multiply(Kg_Conversion,multiply(Equity_Share,Conversion_Factor))))) ~> DerivedColumn2\nDerivedColumn2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tSerial_No,\n\t\tReport_Submitted_by,\n\t\tEmail,\n\t\tReport_Cleared_By,\n\t\tReport_Period,\n\t\tSubmission_Date,\n\t\tEntity_Name,\n\t\tFacility_Description,\n\t\tConsumption_Type,\n\t\tEmission_Source,\n\t\tEmission_Point,\n\t\tDescription,\n\t\tData_Source,\n\t\tMeasured_Units,\n\t\tLocation,\n\t\tValue,\n\t\t{Report Period},\n\t\tFinancial_Year,\n\t\tFY_Mod,\n\t\tPlace_of_Business,\n\t\tClassification,\n\t\t{ Sats_Effective_Interest},\n\t\tPrincipal_Activities,\n\t\tCoy_Control,\n\t\tEquity_Share,\n\t\tOperational_Control,\n\t\tConversion_Factor,\n\t\tReckonable_Emission_Status,\n\t\tEmission_Scope,\n\t\tRequired_Units,\n\t\tEnergy_Conversion_Factor,\n\t\tTotal_Gas_Emission_Factors,\n\t\tData_Source_Detail,\n\t\tGrid_Emissions_Factor,\n\t\tKg_Conversion,\n\t\tMetrics,\n\t\tKPI_Grouping,\n\t\tKPI_Indicator,\n\t\tGHG_Emission_Operational_Control,\n\t\tEnergy_Operational_Control,\n\t\tGHG_Emission_Equity_Share,\n\t\tEnergy_Equity_Share,\n\t\tSustainabilitly_Analytic_Key\n\t)) ~> sink1"
+		}
+	}
+}

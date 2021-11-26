@@ -1,0 +1,48 @@
+{
+	"name": "Name",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureUATBlob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "WWW",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "WW_submission.xlsx",
+				"container": "otpww"
+			},
+			"range": "C1:H2",
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Date (D/M/YYYY)",
+				"type": "String"
+			},
+			{
+				"name": "Shift",
+				"type": "String"
+			},
+			{
+				"name": "Shift Hr",
+				"type": "String"
+			},
+			{
+				"name": "CSE",
+				"type": "String"
+			},
+			{
+				"name": "WW Staff",
+				"type": "String"
+			},
+			{
+				"name": "WW Supervisors",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

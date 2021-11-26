@@ -1,0 +1,17 @@
+{
+	"name": "dnadepartureuatsqlnew",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DNAUATDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "paxflight_tbl_t_DepartureFlight_common_new"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

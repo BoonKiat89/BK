@@ -1,0 +1,34 @@
+{
+	"name": "ops_stats_historical",
+	"properties": {
+		"activities": [
+			{
+				"name": "opsstatshistorical",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "opsstatshistorical",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-11-19T10:30:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
