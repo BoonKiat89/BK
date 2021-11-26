@@ -1,0 +1,49 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ltamall_test.csv",
+				"container": "countryfood"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "Direction",
+				"type": "String"
+			},
+			{
+				"name": "FarEndPoint",
+				"type": "String"
+			},
+			{
+				"name": "StartPoint",
+				"type": "String"
+			},
+			{
+				"name": "EndPoint",
+				"type": "String"
+			},
+			{
+				"name": "EstTime",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

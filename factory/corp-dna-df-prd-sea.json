@@ -1,0 +1,9 @@
+{
+	"name": "corp-dna-df-prd-sea",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e262ef37-9ecf-4bfe-883a-00d9fdaa9b52",
+		"tenantId": "5af395c7-bcfc-43ac-98fa-a57dd56b8796"
+	}
+}
